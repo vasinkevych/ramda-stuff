@@ -6,42 +6,42 @@ const issues = [
     sprintIds: [1, 2, 4, 5, 6],
     type: 'Project',
     value: '10100',
-    title: 'test',
+    title: 'test'
   },
   {
     id: 17,
     sprintIds: [1, 2, 3, 10],
     type: 'Project',
     value: '10002',
-    title: 'third project with samples',
+    title: 'third project with samples'
   },
   {
     id: 18,
     sprintIds: [1, 2, 4, 5.6],
     type: 'Board',
     value: '10001',
-    title: 'custom project',
+    title: 'custom project'
   },
   {
     id: 14,
     sprintIds: [],
     type: 'Project',
     value: '10000',
-    title: 'SCRUM EXAMPLE PROJEFCT',
+    title: 'SCRUM EXAMPLE PROJEFCT'
   },
   {
     id: 15,
     sprintIds: [4, 56, 7, 8, 9, 1, 2, 3],
     type: 'Board',
     value: '10001',
-    title: 'custom project',
-  },
+    title: 'custom project'
+  }
 ];
 
 // custom curring
 // const add = (x, y, z, d) => x + y + z + d;
 
-const curry = function (fn) {
+const curry = function(fn) {
   const arity = fn.length;
   console.log('arity', arity);
 
@@ -83,7 +83,7 @@ console.log(minN(1)(2)(3));
 /* ************* NEXT EXAMPLE */
 
 const arr = [1, 2, 10, 6, 7, 3];
-const [lessThan, moreThan] = R.partition((x) => x < 5, arr);
+const [lessThan, moreThan] = R.partition(x => x < 5, arr);
 console.log(lessThan);
 console.log(moreThan);
 
@@ -116,12 +116,13 @@ console.log(result);
 // converge
 
 const validArr = [6, 3, 4, 5, 2];
-const isFirstElementBiggest = (elements) => elements[0] === elements.sort((a, b) => b - a)[0];
+const isFirstElementBiggest = elements =>
+  elements[0] === elements.sort((a, b) => b - a)[0];
 const sortByBiggestFirst = R.sort(R.descend(R.identity));
 // (b) => b;
 const isFirstElementBiggestR = R.converge(R.equals, [
   R.head,
-  R.compose(R.head, sortByBiggestFirst),
+  R.compose(R.head, sortByBiggestFirst)
 ])(validArr);
 
 const Rconv = R.converge(
@@ -130,10 +131,10 @@ const Rconv = R.converge(
     return [a, b, c];
   },
   [
-    (elements) => elements.map((el) => el * 2),
-    (elements) => elements.map((el) => el - 2),
-    (elements) => elements.map((el) => el / 3),
-  ],
+    elements => elements.map(el => el * 2),
+    elements => elements.map(el => el - 2),
+    elements => elements.map(el => el / 3)
+  ]
 );
 
 console.log(Rconv(validArr));
@@ -145,15 +146,15 @@ console.log(isFirstElementBiggest(validArr));
 /* ************* NEXT EXAMPLE */
 // pipes, compose
 
-const less400 = validArr.map((el) => el * 100).filter((el) => el < 400);
+const less400 = validArr.map(el => el * 100).filter(el => el < 400);
 console.log(less400);
 
-const pcRless400 = R.filter((el) => el < 400, R.map((el) => el * 100)(validArr));
+const pcRless400 = R.filter(el => el < 400, R.map(el => el * 100)(validArr));
 
 const mf = R.compose(
   R.tail,
   R.filter(R.flip(R.lt)(600)),
-  R.map(R.multiply(100)),
+  R.map(R.multiply(100))
 )(validArr);
 
 console.log(mf);
@@ -166,15 +167,18 @@ console.log(pcRless400);
 const tomato = {
   firstName: '  Tomato ',
   data: { elapsed: 100, remaining: 1400 },
-  id: 123,
+  id: 123
 };
 const transformations = {
   firstName: R.pipe(R.trim, R.replace(/o/g, 'OO--')),
   lastName: R.trim, // Will not get invoked.
-  data: { elapsed: R.add(1), remaining: R.subtract(2100) },
+  data: { elapsed: R.add(1), remaining: R.subtract(2100) }
 };
 
 const tResult = R.evolve(transformations, tomato);
+const tx = R.evolve({
+  options: R.pipe(filter, R.take(5))
+});
 
 console.log(tResult);
 
@@ -182,11 +186,12 @@ console.log(tResult);
 
 const filterFN = R.pipe(
   R.prop('id'),
-  (el) => {
+  el => {
     console.log(el);
     return el;
   },
-  R.gt(R.__, 13),
+  // eslint-disable-next-line no-underscore-dangle
+  R.gt(R.__, 13)
 );
 
 console.log(filterFN(issues[0]));
