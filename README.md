@@ -1,6 +1,6 @@
 # some messy testing stuff 
 
-##ramda.js
+## ramda.js
 can be used with quokka.js
 
 Small examples of ramda functions
